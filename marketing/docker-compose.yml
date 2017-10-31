@@ -1,0 +1,46 @@
+version: '2'
+ 
+networks:
+  site-proxy:
+    driver: bridge
+  site-db:
+    driver: bridge
+ 
+volumes:
+  db-mysql:
+ 
+services:
+ 
+  nginx:
+    image: jwilder/nginx-proxy
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - site-proxy
+ 
+  site:
+    build:
+       context: ./containers/site
+    environment:
+      SITE_DB_HOST     : db
+      SITE_DB_PASSWORD : password
+      SITE_DB_USER     : app
+      SITE_DB_NAME     : testdb
+      VIRTUAL_HOST     : conjur
+    networks:
+      - site-proxy
+      - site-db
+ 
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD   : root_password
+      MYSQL_PASSWORD        : password
+      MYSQL_USER            : app 
+      MYSQL_DATABASE        : testdb
+    volumes:
+      - db-mysql:/var/lib/mysql
+    networks:
+      - site-db

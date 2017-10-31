@@ -1,0 +1,7 @@
+FROM php:7.0-apache
+MAINTAINER Anton F. <anton.fridrikh@cyberark.com>
+ 
+RUN apt-get update && apt-get install -y git \
+    && git clone https://github.com/afridrikh/MarketingApp .
+
+RUN docker-php-ext-install pdo pdo_mysql
