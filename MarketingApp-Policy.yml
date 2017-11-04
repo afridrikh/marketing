@@ -6,7 +6,7 @@
 - !grant
   role: !group devops
   member: !user IT-Dev
-	
+  
 - !policy
   id: MarketingApp
   owner: !group devops
