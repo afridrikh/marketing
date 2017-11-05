@@ -11,5 +11,5 @@ CMD curl \
 	--cacert ./conjur-acme.pem \
 	--request POST \
 	-H "ContentType: application/json" \
-	-H "Authorization: Token token=\"<>\"" \
+	-H "Authorization: Token token=\"$hftoken\"" \
 	https://conjur/api/host_factories/hosts?id=$HOSTNAME
