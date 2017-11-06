@@ -1,0 +1,17 @@
+#!/bin/sh
+
+curl \
+    -s \
+    --cacert ./conjur-acme.pem --request POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Token token=\"$HF_TOKEN\"" \
+    https://conjur/api/host_factories/hosts?id=$HOSTNAME
+
+set -e
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- apache2-foreground "$@"
+fi
+
+exec "$@"

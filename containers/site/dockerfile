@@ -1,15 +1,9 @@
 FROM php:7.0-apache
 MAINTAINER Anton F. <anton.fridrikh@cyberark.com>
- 
+
+ADD ./docker-php-entrypoint /usr/local/bin/docker-php-entrypoint
+
 RUN apt-get update && apt-get install -y git \
     && git clone https://github.com/afridrikh/MarketingApp .
 
 RUN docker-php-ext-install pdo pdo_mysql
-
-CMD curl \
-    -s \
-	--cacert ./conjur-acme.pem \
-	--request POST \
-	-H "ContentType: application/json" \
-	-H "Authorization: Token token=\"$hftoken\"" \
-	https://conjur/api/host_factories/hosts?id=$HOSTNAME

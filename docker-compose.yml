@@ -24,11 +24,8 @@ services:
     build:
        context: ./containers/site
     environment:
-      SITE_DB_HOST     : db
-      SITE_DB_PASSWORD : $db_password
-      SITE_DB_USER     : app
-      SITE_DB_NAME     : testdb
       VIRTUAL_HOST     : conjur
+      HF_TOKEN         : $hf_token
     networks:
       - site-proxy
       - site-db
