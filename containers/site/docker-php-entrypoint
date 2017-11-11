@@ -1,11 +1,22 @@
 #!/bin/sh
 
-curl \
+HOST_API_KEY=$(curl \
     -s \
-    --cacert ./conjur-acme.pem --request POST \
+    --cacert ./conjur-acme.pem \
+	--request POST \
     -H "Content-Type: application/json" \
     -H "Authorization: Token token=\"$HF_TOKEN\"" \
-    https://conjur/api/host_factories/hosts?id=$HOSTNAME
+    https://conjur/api/host_factories/hosts?id=$HOSTNAME \
+	| jq -r '.api_key')
+
+response=$(curl -s \
+	 --cacert ./conjur-acme.pem \
+	 --request POST \
+	 --data-binary $host_api_key \
+	 https://conjur/api/authn/users/$HOSTNAME/authenticate)
+HOST_SESSION_TOKEN=$(echo -n $response| base64 | tr -d '\r\n')
+
+export HOST_SESSION_TOKEN=$HOST_SESSION_TOKEN
 
 set -e
 
