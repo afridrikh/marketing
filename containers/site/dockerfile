@@ -3,7 +3,7 @@ MAINTAINER Anton F. <anton.fridrikh@cyberark.com>
 
 ADD ./docker-php-entrypoint /usr/local/bin/docker-php-entrypoint
 
-RUN apt-get update && apt-get install -y git jq \
+RUN apt-get update && apt-get install -y git \
     && git clone https://github.com/afridrikh/MarketingApp .
 
 RUN docker-php-ext-install pdo pdo_mysql
